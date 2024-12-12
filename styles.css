@@ -1,0 +1,16 @@
+body {
+    font-family: 'Cinzel', serif;
+    background: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    color: #3e2723;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff5e6;
+    border: 1px solid #3e2723;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}

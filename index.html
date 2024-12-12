@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D 3.5e Spell Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>D&D 3.5e Spell Finder</h1>
+            <p>Search for spells by class, level, and category!</p>
+        </header>
+        <form id="spell-form">
+            <div class="form-group">
+                <label for="class">Class</label>
+                <input type="text" id="class" name="class" placeholder="Enter your class (e.g., Wizard)" required>
+            </div>
+            <div class="form-group">
+                <label for="level">Level</label>
+                <input type="number" id="level" name="level" placeholder="Enter your level (e.g., 5)" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">All Categories</option>
+                    <option value="Healing">Healing</option>
+                    <option value="Offensive">Offensive</option>
+                    <option value="Control">Control</option>
+                    <option value="Debuffing">Debuffing</option>
+                    <option value="Buffing">Buffing</option>
+                    <option value="Utility">Utility</option>
+                    <option value="Defensive">Defensive</option>
+                    <option value="Summoning">Summoning</option>
+                </select>
+            </div>
+            <button type="submit">Find Spells</button>
+        </form>
+        <section id="results">
+            <h2>Available Spells</h2>
+            <ul></ul>
+        </section>
+    </div>
+    <script>
+        document.getElementById('spell-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const response = await fetch('/query', {
+                method: 'POST',
+                body: formData
+            });
+
+            const spells = await response.json();
+            const resultsList = document.querySelector('#results ul');
+            resultsList.innerHTML = '';
+
+            if (spells.length > 0) {
+                spells.forEach(spell => {
+                    const li = document.createElement('li');
+                    li.textContent = spell;
+                    resultsList.appendChild(li);
+                });
+            } else {
+                resultsList.innerHTML = '<li>No spells found.</li>';
+            }
+        });
+    </script>
+</body>
+</html>
